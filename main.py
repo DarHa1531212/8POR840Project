@@ -27,31 +27,72 @@ for filename in all_files:
 
 df = pd.concat(li, axis=0, ignore_index=True)
 '''
-# df.to_csv(r"C:\Users\vince\Documents\8POR840Project\data.csv", index=False)
+# df.to_csv(r"C:\Users\vince\Documents\8POR840Project\dataDiamond.csv", index=False)
 
-df = pd.read_csv('data.csv')
-print(df.info())
-print(df.describe())
 '''
-pairplot_df = df.drop(['matchid', 'dateid', 'roundnumber'], axis=1)
-sns.pairplot(data=pairplot_df)
+path = r'data'
+all_files = glob.glob(path + "/*.csv")
+
+li = []
+
+for filename in all_files:
+    df = pd.read_csv(filename, index_col=None, header=0)
+    df = df.loc[(df['skillrank'] == 'Gold') & (df['gamemode'] == 'BOMB')]
+    print(df.head())
+    li.append(df)
+
+df = pd.concat(li, axis=0, ignore_index=True)
+'''
+# df.to_csv(r"C:\Users\vince\Documents\8POR840Project\dataDiamond.csv", index=False)
+
+df_diamond = pd.read_csv('dataDiamond.csv')
+# print(df_diamond.info())
+# print(df_diamond.describe())
+
+df_gold = pd.read_csv('dataGold.csv')
+# print(df_gold.info())
+# print(df_gold.describe())
+
+'''
+pairplot_df_diamond = df_diamond.drop(['matchid', 'dateid', 'roundnumber'], axis=1)
+sns.pairplot(data=pairplot_df_diamond)
+plt.show()
+'''
+'''
+# ATTENTION PREND BEAUCOUP DE RAM ~10GB ET DE TEMPS ~5min
+pairplot_df_gold = df_gold.drop(['matchid', 'dateid', 'roundnumber'], axis=1)
+sns.pairplot(data=pairplot_df_gold)
 plt.show()
 '''
 '''
 plt.subplots(figsize=(14,10))
-sns.boxplot(x='roundduration', data=df)
+sns.boxplot(x='roundduration', data=df_diamond)
 plt.title("Dispersion du temps par manche")
 plt.tight_layout()
 plt.show()
 '''
 '''
 plt.subplots(figsize=(14,10))
-sns.boxplot(x='nbkills', data=df)
-plt.title("Dispersion du nombre de kills par manche")
+sns.boxplot(x='roundduration', data=df_gold)
+plt.title("Dispersion du temps par manche")
 plt.tight_layout()
 plt.show()
 '''
 
 # filtrer les valeurs aberrantes des durations de manches
-df = df.loc[(df['roundduration'] < 270)]
+df_diamond = df_diamond.loc[(df_diamond['roundduration'] < 270)]
+
+df_gold = df_gold.loc[(df_gold['roundduration'] < 270)]
+
+df_diamond_SWAT_ASH = df_diamond.loc[(df_diamond['operator'] == 'SWAT-ASH')]
+
+df_gold_SWAT_ASH = df_gold.loc[(df_gold['operator'] == 'SWAT-ASH')]
+
+df1 = pd.DataFrame()
+df1['usedR4-C'] = df_diamond_SWAT_ASH['primaryweapon'].apply(lambda x: 1 if x == 'R4-C' else 0)
+print(df1['usedR4-C'].value_counts())
+
+df2 = pd.DataFrame()
+df2['usedR4-C'] = df_gold_SWAT_ASH['primaryweapon'].apply(lambda x: 1 if x == 'R4-C' else 0)
+print(df2['usedR4-C'].value_counts())
 
