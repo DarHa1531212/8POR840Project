@@ -1,10 +1,18 @@
 import pandas as pd
 from _datetime import datetime
 import glob
+
+import pydotplus as pydotplus
 import seaborn as sns
 import matplotlib.pyplot as plt
 import scipy.stats
 import numpy as np
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.tree import DecisionTreeClassifier
+
+from DecisionTree import decisionTreeTrainTest, decisionTreeKFold
 
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
@@ -134,14 +142,13 @@ plt.title('Ratio victoire/défaite des défendeurs de rang Gold par carte')
 plt.tight_layout()
 plt.show()
 '''
-
+'''
 # test khi2 sur le choix des cartes
 df_diamond_gold = pd.concat([df_diamond, df_gold])
 df_maps = df_diamond_gold.groupby(df_diamond_gold['mapname']).count()
 total_games = df_maps.winrole.sum()
 
 df_maps_array = df_maps['winrole'].to_numpy()
-print(df_maps_array)
 total_games_array = np.array(
     [int(total_games / len(df_maps.index)), int(total_games / len(df_maps.index)), int(total_games / len(df_maps.index))
         , int(total_games / len(df_maps.index)), int(total_games / len(df_maps.index)), int(total_games / len(df_maps.index))
@@ -149,9 +156,8 @@ total_games_array = np.array(
      int(total_games / len(df_maps.index)), int(total_games / len(df_maps.index)), int(total_games / len(df_maps.index))
         , int(total_games / len(df_maps.index)), int(total_games / len(df_maps.index)), int(total_games / len(df_maps.index))
         , int(total_games / len(df_maps.index))])
-print(total_games_array)
 
 print(scipy.stats.chisquare(df_maps_array))
+'''
 
-print(df_maps)
-print(total_games)
+decisionTreeKFold(pd.concat([df_diamond, df_gold]), 10)
