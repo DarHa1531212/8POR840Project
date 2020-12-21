@@ -6,14 +6,10 @@ from sklearn.tree import DecisionTreeClassifier
 # Modélisation de l'arbre de classification
 def decisionTreeTrainTest(df_total, test_size):
     df_total_X = df_total[['platform', 'mapname', 'clearancelevel', 'skillrank', 'role', 'operator']]
-    print(df_total_X.head(5))
     label_encoder = LabelEncoder()
     df_total_X = df_total_X.apply(label_encoder.fit_transform)
 
     X_train, X_test, y_train, y_test = train_test_split(df_total_X, df_total.haswon, random_state=111, test_size=test_size)
-
-    print(X_train.head(5))
-    print(y_train.head(5))
 
     dtree = DecisionTreeClassifier()
     dtree = dtree.fit(X_train, y_train)
@@ -23,7 +19,6 @@ def decisionTreeTrainTest(df_total, test_size):
 
 def decisionTreeKFold(df_total, n_folds):
     df_total_X = df_total[['platform', 'mapname', 'clearancelevel', 'skillrank', 'role', 'operator']]
-    print(df_total_X.head(5))
     label_encoder = LabelEncoder()
     df_total_X = df_total_X.apply(label_encoder.fit_transform)
     df_total_y = df_total.haswon

@@ -17,7 +17,7 @@ pd.set_option('display.width', None)
 pd.set_option('display.max_colwidth', None)
 
 # Pour générer les fichiers csv contenant seulement les joueurs Diamond et Gold,
-# il n'est pas nécessaire d'exécuter ce code nous l'avons seulement ajouté pour vous montrer comment nous avons filtrer les donneés
+# il n'est pas nécessaire d'exécuter ce code nous l'avons seulement ajouté pour vous montrer comment nous avons filtré les données
 '''
 GenerateCSVBySkillrank('Diamond')
 GenerateCSVBySkillrank('Gold')
@@ -26,12 +26,6 @@ GenerateCSVBySkillrank('Gold')
 # On lit les fichiers csv et on les places dans des dataframes
 df_diamond = pd.read_csv('dataDiamond.csv')
 df_gold = pd.read_csv('dataGold.csv')
-
-# On imprime des statistiques sur les données et de matrices de corrélations
-'''
-printStats(df_diamond)
-printStats(df_gold)  # ATTENTION PREND BEAUCOUP DE RAM ~10GB ET DE TEMPS ~5min
-'''
 
 # Impression graph de dispersion de la colonne du temps du ronde
 '''
@@ -42,6 +36,12 @@ dispersionGraph(df_gold, 'roundduration')
 # filtrer les valeurs aberrantes des durations de manches
 df_diamond = df_diamond.loc[(df_diamond['roundduration'] < 270)]
 df_gold = df_gold.loc[(df_gold['roundduration'] < 270)]
+
+# On imprime des statistiques sur les données et de matrices de corrélations
+'''
+printStats(df_diamond)
+printStats(df_gold)  # ATTENTION PREND BEAUCOUP DE RAM ~10GB ET DE TEMPS ~5min
+'''
 
 # impression des armes les plus utilisées par chaque opérateur
 '''
@@ -88,5 +88,10 @@ Chi2MapChoice(df_diamond_gold)
 
 # On exécute tout ce qui a rapport avec le modèle d'arbre de classification
 '''
-decisionTreeKFold(pd.concat([df_diamond, df_gold]), 10)
+# decisionTreeTrainTest(pd.concat([df_diamond, df_gold]), .3)
+# decisionTreeTrainTest(pd.concat([df_diamond, df_gold]), .4)
+# decisionTreeTrainTest(pd.concat([df_diamond, df_gold]), .5)
+# decisionTreeTrainTest(pd.concat([df_diamond, df_gold]), .6)
+# decisionTreeKFold(pd.concat([df_diamond, df_gold]), 5)
+# decisionTreeKFold(pd.concat([df_diamond, df_gold]), 10)
 '''
